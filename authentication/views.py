@@ -34,7 +34,13 @@ class UserLogin(APIView):
         data['token'] = token
         print("this endpoint is working")
 
-        return Response({"message": "login successful", "data": data})
+        response["Access-Control-Allow-Origin"] = '*'
+        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        response["Access-Control-Max-Age"] = '1000'
+        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        response = Response({"message": "login successful", "data": data})
+
+        return response
         
 
 class VerifyEmail(APIView):
