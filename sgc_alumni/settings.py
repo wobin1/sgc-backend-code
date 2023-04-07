@@ -146,4 +146,5 @@ SIMPLE_JWT = {
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
   'http://localhost:4200',
+  'https://stellar-bienenstitch-40408c.netlify.app/'
 )
