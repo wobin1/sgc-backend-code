@@ -32,6 +32,7 @@ class UserLogin(APIView):
         # Serializer user data and token
         data =UserSerializer(user).data
         data['token'] = token
+        print("this endpoint is working")
 
         return Response({"message": "login successful", "data": data})
         
