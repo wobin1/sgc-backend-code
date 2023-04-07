@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-     'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'sgc_alumni.urls'
@@ -145,6 +145,7 @@ SIMPLE_JWT = {
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
+    
     'https://stellar-bienenstitch-40408c.netlify.app',
     'http://localhost:4200',
     'http://127.0.0.1:8090',
