@@ -102,10 +102,10 @@ class UserDetail(APIView):
             return Response({"erro": str(e)})
         serializer = UserSerializer(user)
 
-        response["Access-Control-Allow-Origin"] = '*'
-        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-        response["Access-Control-Max-Age"] = '1000'
-        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        # response["Access-Control-Allow-Origin"] = '*'
+        # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        # response["Access-Control-Max-Age"] = '1000'
+        # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
         response = Response({"data": serializer.data})
         return response
 
