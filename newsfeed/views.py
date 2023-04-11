@@ -62,6 +62,11 @@ class NewsfeedDelete(APIView):
             return Response({"error": str(e)})
 
         feed.delete()
+        response["Access-Control-Allow-Origin"] = '*'
+        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        response["Access-Control-Max-Age"] = '1000'
+        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        response = Response({"message": "feed deleted successfully"})
 
-        return Response({"message": "feed deleted successfully"})
+        return response
 

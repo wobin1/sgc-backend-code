@@ -34,10 +34,24 @@ class UserLogin(APIView):
         data['token'] = token
         print("this endpoint is working")
 
-        response["Access-Control-Allow-Origin"] = '*'
-        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-        response["Access-Control-Max-Age"] = '1000'
-        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        request_data["first_name"] = user.first_name
+        request_data["last_name"] = user.last_name
+        request_data["email"] = user.email
+        request_data["date_of_birth"] = user.date_of_birth
+        request_data["otp"] = user.otp
+        request_data["password"] = user.password
+        request_data["is_online"] = True
+        print(request_data)
+
+        serializer = UserSerializer(user, data=request_data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            print(serializer.data)
+
+        # response["Access-Control-Allow-Origin"] = '*'
+        # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        # response["Access-Control-Max-Age"] = '1000'
+        # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
         response = Response({"message": "login successful", "data": data})
 
         return response

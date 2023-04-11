@@ -13,11 +13,16 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 class GetUsers(APIView):
 
     def get(self, request):
-        user = User.objects.order_by('-id')
+        user = User.objects.all().order_by('first_name')
         print(user)
         serializer = UserSerializer(user, many=True)
 
-        return Response({"data": serializer.data})
+        response["Access-Control-Allow-Origin"] = '*'
+        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        response["Access-Control-Max-Age"] = '1000'
+        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        response = Response({"data": serializer.data})
+        return response
 
 
 class CreateUser(APIView):
@@ -34,7 +39,12 @@ class CreateUser(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
 
-            return Response({"data": serializer.data})
+            response["Access-Control-Allow-Origin"] = '*'
+            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            response["Access-Control-Max-Age"] = '1000'
+            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            response = Response({"data": serializer.data})
+            return response
 
 class UpdateUser(APIView):
 
@@ -75,7 +85,13 @@ class SuspendAccount(APIView):
 
         return Response({"response": "Account suspended successfully"})
 
-        
+class AlumniList(APIView):
+     def get(self, request):
+        user = User.objects.filter(is_staff=False)[:10]
+        print(user)
+        serializer = UserSerializer(user, many=True)
+
+        return Response({"data": serializer.data})      
         
 class UserDetail(APIView):
 
@@ -85,7 +101,13 @@ class UserDetail(APIView):
         except Exception as e:
             return Response({"erro": str(e)})
         serializer = UserSerializer(user)
-        return Response({"data": serializer.data})
+
+        response["Access-Control-Allow-Origin"] = '*'
+        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        response["Access-Control-Max-Age"] = '1000'
+        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        response = Response({"data": serializer.data})
+        return response
 
 
 class DeleteUser(APIView):
@@ -94,7 +116,13 @@ class DeleteUser(APIView):
         try:
             user = User.objects.get(pk=id)
             user.delete()
-            return Response({"response": "User Deleted successfully"})
+
+            response["Access-Control-Allow-Origin"] = '*'
+            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            response["Access-Control-Max-Age"] = '1000'
+            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            response = Response({"response": "User Deleted successfully"})
+            return response
         except Exception as e:
             return Response({"erro": str(e)})
 
@@ -124,3 +152,58 @@ class OnlineUsersView(APIView):
         ]
 
         return Response(data)
+
+
+class NewestMembers(APIView):
+    def get(self, request):
+        user = User.objects.all().order_by('-user_created_at')[:5]
+        print(user)
+        serializer = UserSerializer(user, many=True)
+
+        response["Access-Control-Allow-Origin"] = '*'
+        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        response["Access-Control-Max-Age"] = '1000'
+        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        response = Response({"data": serializer.data})
+        return Rresponse
+
+
+class UsersOnline(APIView):
+    def get(self, request):
+        user = User.objects.filter(is_online=True)[:5]
+        print(user)
+        serializer = UserSerializer(user, many=True)
+
+        return Response({"data": serializer.data})
+
+
+class UsersOnline(APIView):
+    def get(self, request):
+        user = User.objects.filter(is_online=True)[:5]
+        print(user)
+        serializer = UserSerializer(user, many=True)
+
+        return Response({"data": serializer.data})
+
+class AccountRequest(APIView):
+    def get(self, request):
+        user = User.objects.filter(is_approved=False)[:10]
+        print(user)
+        serializer = UserSerializer(user, many=True)
+
+        return Response({"data": serializer.data})
+
+
+class Counts(APIView):
+    def get(self, request):
+        total_account = User.objects.all().count()
+        account_pending = User.objects.filter(is_approved=False).count()
+        account_approved = User.objects.filter(is_approved=True).count()
+        
+        response = {"total_account": total_account,
+                        "account_pending": account_pending,
+                        "account_approved": account_approved
+                    }
+        
+
+        return Response({"data": response})

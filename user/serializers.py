@@ -19,6 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
             "token_time_generated",
             "user_created_at",
             "token_used",
+            "is_approved",
+            "is_online",
             "is_active",
             "is_staff",
             "is_superuser",
