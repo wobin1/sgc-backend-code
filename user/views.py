@@ -4,12 +4,16 @@ from rest_framework.views import APIView
 from .models import User
 from .serializers import UserSerializer
 import random
+from datetime import timedelta
+from django.utils import timezone
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 
 class GetUsers(APIView):
 
     def get(self, request):
-        user = User.objects.all()
+        user = User.objects.order_by('-id')
         print(user)
         serializer = UserSerializer(user, many=True)
 
@@ -95,4 +99,28 @@ class DeleteUser(APIView):
             return Response({"erro": str(e)})
 
             
+class OnlineUsersView(APIView):
+    jwt_auth = JWTAuthentication()
 
+    def get(self, request):
+
+        # get the current time
+        now = timezone.now()
+
+        # calculate the cutoff time for active users
+        cutoff = now - timedelta(minutes=5)
+
+        # filter the users who have been active within the last 5 minutes
+        active_users = User.objects.filter(last_seen_gte=cutoff)
+
+        # return a list of active user IDS and email
+
+        data = [
+            {
+                'id': user.id,
+                'email': user.email
+            }
+            for user in active_users
+        ]
+
+        return Response(data)

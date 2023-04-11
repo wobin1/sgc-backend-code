@@ -8,13 +8,14 @@ class NewsfeedSerializer(serializers.ModelSerializer):
     class Meta:
         posted_by = serializers.ReadOnlyField()
         model = Newsfeed
-        # fields = [
-        #     'id',
-        #     'posted_by',
-        #     'feed',
-        #     'imageLink',
-        #     'likes'
-        # ]
+        fields = [
+            'id',
+            'posted_by',
+            'feed',
+            'imageLink',
+            'likes'
+            'time_posted'
+        ]
 
     def to_representation(self, instance):
         representation = dict()
@@ -23,6 +24,7 @@ class NewsfeedSerializer(serializers.ModelSerializer):
         representation["feed"] = instance.feed
         representation["imageLink"] = instance.imageLink
         representation["likes"] = instance.likes
+        representation["time_posted"] = instance.time_posted
 
         return representation
 

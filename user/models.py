@@ -39,6 +39,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateTimeField(default=now)
     otp = models.CharField(max_length=4)
     token_time_generated = models.DateTimeField(default=now)
+    user_created_at = models.DateTimeField(default=now)
+    last_seen = models.DateTimeField(default=now)
     token_used = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

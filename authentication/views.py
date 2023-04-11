@@ -65,10 +65,21 @@ class VerifyEmail(APIView):
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
 
-                return Response({"data": serializer.data})
+                response["Access-Control-Allow-Origin"] = '*'
+                response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+                response["Access-Control-Max-Age"] = '1000'
+                response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+                response = Response({"data": serializer})
+                return response
 
         else:
-            return Response({"error": "Invalid otp"})
+            response["Access-Control-Allow-Origin"] = '*'
+            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            response["Access-Control-Max-Age"] = '1000'
+            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            response = Response({"error": "invalid otp"})
+
+            return response
 
 
 class ForgotPassword(APIView):
@@ -101,7 +112,15 @@ class ForgotPassword(APIView):
 
             # send_email(subject, message, sender, recipient_list)
 
-            return Response({"message": "A OTP has been send to your email use it to reset password", "data": serializer.data})
+            response["Access-Control-Allow-Origin"] = '*'
+            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            response["Access-Control-Max-Age"] = '1000'
+            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            response = Response({"data": serializer})
+
+            response = Response({"message": "A OTP has been send to your email use it to reset password", "data": serializer.data})
+
+            return response
 
 
 class ResetPassword(APIView):
@@ -127,4 +146,11 @@ class ResetPassword(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
 
-            return Response({"message": "Password reset successfully"})
+
+            response["Access-Control-Allow-Origin"] = '*'
+            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            response["Access-Control-Max-Age"] = '1000'
+            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            response = Response({"data": serializer})
+            
+            return response

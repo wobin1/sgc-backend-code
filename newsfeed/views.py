@@ -3,24 +3,37 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Newsfeed
 from .serializers import NewsfeedSerializer
-
+from django.utils.timezone import now
 
 class NewsfeedList(APIView):
     def get(self, request):
         newsfeeds = Newsfeed.objects.all()
 
         serializer = NewsfeedSerializer(newsfeeds, many=True)
-        return Response({"data": serializer.data})
+
+        response["Access-Control-Allow-Origin"] = '*'
+        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        response["Access-Control-Max-Age"] = '1000'
+        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        response = Response({"data": serializer.data})
+
+        return response
 
 class NewsfeedCreate(APIView):
-    def post(self, request):
+    def post(self, request, id):
         request_data = request.data
 
         serializer = NewsfeedSerializer(data=request_data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
 
-            return Response({"message": "feed created successfully", "data": serializer.data})
+
+            response["Access-Control-Allow-Origin"] = '*'
+            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            response["Access-Control-Max-Age"] = '1000'
+            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            response = Response({"message": "feed created successfully", "data": serializer.data})
+            return response
 
 
 class NewsfeedDetail(APIView):
@@ -28,7 +41,13 @@ class NewsfeedDetail(APIView):
         try:
             feed = Newsfeed.objects.get(pk=id)
         except Exception as e:
-            return Response({"error": str(e)})
+
+            response["Access-Control-Allow-Origin"] = '*'
+            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            response["Access-Control-Max-Age"] = '1000'
+            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            response = Response({"error": str(e)})
+            return response
 
         serializer = NewsfeedSerializer(feed)
 

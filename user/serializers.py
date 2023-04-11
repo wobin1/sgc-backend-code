@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
             "password",
             "otp",
             "token_time_generated",
+            "user_created_at",
             "token_used",
             "is_active",
             "is_staff",

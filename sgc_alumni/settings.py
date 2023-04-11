@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    # 'user.middleware.OnlineStatusMiddleware'
 ]
 
 ROOT_URLCONF = 'sgc_alumni.urls'
