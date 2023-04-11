@@ -17,10 +17,10 @@ class GetUsers(APIView):
         print(user)
         serializer = UserSerializer(user, many=True)
 
-        response["Access-Control-Allow-Origin"] = '*'
-        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-        response["Access-Control-Max-Age"] = '1000'
-        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        # response["Access-Control-Allow-Origin"] = '*'
+        # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        # response["Access-Control-Max-Age"] = '1000'
+        # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
         response = Response({"data": serializer.data})
         return response
 
@@ -39,10 +39,10 @@ class CreateUser(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
 
-            response["Access-Control-Allow-Origin"] = '*'
-            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-            response["Access-Control-Max-Age"] = '1000'
-            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            # response["Access-Control-Allow-Origin"] = '*'
+            # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            # response["Access-Control-Max-Age"] = '1000'
+            # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"data": serializer.data})
             return response
 
@@ -117,10 +117,10 @@ class DeleteUser(APIView):
             user = User.objects.get(pk=id)
             user.delete()
 
-            response["Access-Control-Allow-Origin"] = '*'
-            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-            response["Access-Control-Max-Age"] = '1000'
-            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            # response["Access-Control-Allow-Origin"] = '*'
+            # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            # response["Access-Control-Max-Age"] = '1000'
+            # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"response": "User Deleted successfully"})
             return response
         except Exception as e:
@@ -160,10 +160,10 @@ class NewestMembers(APIView):
         print(user)
         serializer = UserSerializer(user, many=True)
 
-        response["Access-Control-Allow-Origin"] = '*'
-        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-        response["Access-Control-Max-Age"] = '1000'
-        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        # response["Access-Control-Allow-Origin"] = '*'
+        # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        # response["Access-Control-Max-Age"] = '1000'
+        # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
         response = Response({"data": serializer.data})
         return Rresponse
 

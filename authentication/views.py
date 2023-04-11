@@ -48,10 +48,10 @@ class UserLogin(APIView):
             serializer.save()
             print(serializer.data)
 
-        response["Access-Control-Allow-Origin"] = '*'
-        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-        response["Access-Control-Max-Age"] = '1000'
-        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        # response["Access-Control-Allow-Origin"] = '*'
+        # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        # response["Access-Control-Max-Age"] = '1000'
+        # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
         response = Response({"message": "login successful", "data": data})
 
         return response
@@ -79,18 +79,18 @@ class VerifyEmail(APIView):
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
 
-                response["Access-Control-Allow-Origin"] = '*'
-                response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-                response["Access-Control-Max-Age"] = '1000'
-                response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+                # response["Access-Control-Allow-Origin"] = '*'
+                # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+                # response["Access-Control-Max-Age"] = '1000'
+                # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
                 response = Response({"data": serializer})
                 return response
 
         else:
-            response["Access-Control-Allow-Origin"] = '*'
-            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-            response["Access-Control-Max-Age"] = '1000'
-            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            # response["Access-Control-Allow-Origin"] = '*'
+            # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            # response["Access-Control-Max-Age"] = '1000'
+            # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"error": "invalid otp"})
 
             return response
@@ -126,10 +126,10 @@ class ForgotPassword(APIView):
 
             # send_email(subject, message, sender, recipient_list)
 
-            response["Access-Control-Allow-Origin"] = '*'
-            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-            response["Access-Control-Max-Age"] = '1000'
-            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            # response["Access-Control-Allow-Origin"] = '*'
+            # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            # response["Access-Control-Max-Age"] = '1000'
+            # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"data": serializer})
 
             response = Response({"message": "A OTP has been send to your email use it to reset password", "data": serializer.data})
@@ -161,10 +161,10 @@ class ResetPassword(APIView):
             serializer.save()
 
 
-            response["Access-Control-Allow-Origin"] = '*'
-            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-            response["Access-Control-Max-Age"] = '1000'
-            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            # response["Access-Control-Allow-Origin"] = '*'
+            # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            # response["Access-Control-Max-Age"] = '1000'
+            # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"data": serializer})
             
             return response

@@ -30,10 +30,10 @@ class NewsfeedCreate(APIView):
             serializer.save()
 
 
-            response["Access-Control-Allow-Origin"] = '*'
-            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-            response["Access-Control-Max-Age"] = '1000'
-            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            # response["Access-Control-Allow-Origin"] = '*'
+            # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            # response["Access-Control-Max-Age"] = '1000'
+            # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"message": "feed created successfully", "data": serializer.data})
             return response
 
@@ -44,10 +44,10 @@ class NewsfeedDetail(APIView):
             feed = Newsfeed.objects.get(pk=id)
         except Exception as e:
 
-            response["Access-Control-Allow-Origin"] = '*'
-            response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-            response["Access-Control-Max-Age"] = '1000'
-            response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+            # response["Access-Control-Allow-Origin"] = '*'
+            # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+            # response["Access-Control-Max-Age"] = '1000'
+            # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"error": str(e)})
             return response
 
@@ -64,10 +64,10 @@ class NewsfeedDelete(APIView):
             return Response({"error": str(e)})
 
         feed.delete()
-        response["Access-Control-Allow-Origin"] = '*'
-        response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
-        response["Access-Control-Max-Age"] = '1000'
-        response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
+        # response["Access-Control-Allow-Origin"] = '*'
+        # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
+        # response["Access-Control-Max-Age"] = '1000'
+        # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
         response = Response({"message": "feed deleted successfully"})
 
         return response
