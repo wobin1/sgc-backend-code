@@ -122,7 +122,7 @@ class DeleteUser(APIView):
             # response["Access-Control-Max-Age"] = '1000'
             # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"response": "User Deleted successfully"})
-            return response
+            return responsef
         except Exception as e:
             return Response({"erro": str(e)})
 
@@ -165,7 +165,7 @@ class NewestMembers(APIView):
         # response["Access-Control-Max-Age"] = '1000'
         # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
         response = Response({"data": serializer.data})
-        return Rresponse
+        return response
 
 
 class UsersOnline(APIView):
