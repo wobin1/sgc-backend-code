@@ -122,7 +122,7 @@ class DeleteUser(APIView):
             # response["Access-Control-Max-Age"] = '1000'
             # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
             response = Response({"response": "User Deleted successfully"})
-            return responsef
+            return response
         except Exception as e:
             return Response({"erro": str(e)})
 
@@ -193,6 +193,34 @@ class AccountRequest(APIView):
 
         return Response({"data": serializer.data})
 
+class ApproveAccountRequest(APIView):
+    def put(self, request, id):
+        request_data = request.data
+        print(request_data)
+        try:
+            user = User.objects.get(pk=id)
+            print(user.first_name)
+        except Exception as e:
+            return Response({"error": str(e)})
+
+        data = UserSerializer(user).data
+        # print(data["password"])
+
+        request_data["first_name"] = data["first_name"]
+        request_data["last_name"] = data["last_name"]
+        request_data["email"] = data["email"]
+        request_data["otp"] = data["otp"]
+        request_data["password"] = data["password"]
+
+        print(request_data)
+
+        serializer = UserSerializer(user, data=request_data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        
+        response = Response({"message": "Account approved"})
+
+        return response
 
 class Counts(APIView):
     def get(self, request):
