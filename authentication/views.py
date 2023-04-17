@@ -168,3 +168,35 @@ class ResetPassword(APIView):
             response = Response({"data": serializer})
             
             return response
+
+
+
+class Logout(APIView):
+    def get(self, request, id):
+        request_data = request.data
+        try:
+            user = User.objects.get(pk=id)
+        except Exception as e:
+            return Response({"erro": str(e)})
+
+        data =UserSerializer(user).data
+        print("this endpoint is working")
+
+        request_data["first_name"] = user.first_name
+        request_data["last_name"] = user.last_name
+        request_data["email"] = user.email
+        request_data["date_of_birth"] = user.date_of_birth
+        request_data["otp"] = user.otp
+        request_data["password"] = user.password
+        request_data["is_online"] = False
+
+
+        serializer = UserSerializer(user, data=request_data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            print(serializer.data)
+
+
+        response = Response({"message": "User logged out successfully"})
+
+        return response
