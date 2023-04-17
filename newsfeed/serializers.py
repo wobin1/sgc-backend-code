@@ -7,13 +7,15 @@ from user.serializers import UserSerializer
 class NewsfeedSerializer(serializers.ModelSerializer):
     class Meta:
         posted_by = serializers.ReadOnlyField()
+        liked_by = serializers.ReadOnlyField()
         model = Newsfeed
         fields = [
             'id',
             'posted_by',
             'feed',
             'imageLink',
-            'likes'
+            'likes_count',
+            'liked_by',
             'time_posted'
         ]
 
@@ -23,7 +25,8 @@ class NewsfeedSerializer(serializers.ModelSerializer):
         representation["posted_by"] = UserSerializer(instance.posted_by).data 
         representation["feed"] = instance.feed
         representation["imageLink"] = instance.imageLink
-        representation["likes"] = instance.likes
+        representation["likes_count"] = instance.likes_count
+        # representation["liked_by"] = UserSerializer(instance.liked_by).data
         representation["time_posted"] = instance.time_posted
 
         return representation
@@ -34,7 +37,8 @@ class NewsfeedSerializer(serializers.ModelSerializer):
                 posted_by = validated_data["posted_by"],
                 feed = validated_data["feed"],
                 image_link = validated_data["image_link"],
-                likes = validated_data["likes"]
+                likes_count = validated_data["likes_count"],
+                liked_by = validated_data["Liked_by"]
 
             )
 

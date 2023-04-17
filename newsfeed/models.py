@@ -7,7 +7,8 @@ class Newsfeed(models.Model):
     posted_by = models.ForeignKey(User, related_name='newsfeed', on_delete=models.CASCADE)
     feed = models.CharField(max_length=300)
     imageLink = models.CharField(max_length=600)
-    likes = models.IntegerField(default=0)
+    liked_by = models.ManyToManyField(User, related_name="liked_by")
+    likes_count = models.IntegerField(default=0)
     time_posted = models.DateTimeField(default=now)
 
     def __str__(self):

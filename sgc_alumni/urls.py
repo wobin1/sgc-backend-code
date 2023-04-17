@@ -6,5 +6,6 @@ urlpatterns = [
     path('api/user/', include('user.urls')),
     path('api/auth/', include('authentication.urls')),
     path('api/suggestion/', include('suggestion.urls')),
-    path('api/feed/', include('newsfeed.urls'))
+    path('api/feed/', include('newsfeed.urls')),
+    path('api/comment/', include('comment.urls')),
 ]

@@ -1,15 +1,30 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Newsfeed
+from rest_framework.decorators import api_view
+from newsfeed.models import Newsfeed
+from newsfeed.serializers import NewsfeedSerializer
+from .models import User
+from comment.models import Comment
 from .serializers import NewsfeedSerializer
+from comment.serializers import CommentSerializer
 from django.utils.timezone import now
 
 class NewsfeedList(APIView):
     def get(self, request):
         newsfeeds = Newsfeed.objects.all()
+        response_data = []
 
         serializer = NewsfeedSerializer(newsfeeds, many=True)
+
+        for item in serializer.data:
+            post_id = item["id"]
+            print(item)
+            print(post_id)
+            query = Comment.objects.filter(post=post_id)
+            commentserializer = CommentSerializer(query, many=True)
+            item["comments"] = commentserializer.data
+            response_data.append(item)
 
         # response=''
 
@@ -17,7 +32,7 @@ class NewsfeedList(APIView):
         # response["Access-Control-Allow-Methods"] = 'GET,PUT, OPTIONS'
         # response["Access-Control-Max-Age"] = '1000'
         # response["Access-Control-Allow-Headers"] = 'X-Requested-With, Content-Type'
-        response = Response({"data": serializer.data})
+        response = Response({"data": response_data})
 
         return response
 
@@ -71,4 +86,38 @@ class NewsfeedDelete(APIView):
         response = Response({"message": "feed deleted successfully"})
 
         return response
+
+
+
+@api_view(['PUT'])
+def like(request, id, format=None):
+    request_data = request.data
+    user_id = request_data["user_id"]
+    try:
+        print("step one working")
+        feed = Newsfeed.objects.filter(id=id)
+        # for f in feed:
+        #     print(f.id, f.liked_by, f.likes_count)
+        user = User.objects.get(pk=user_id)
+
+    except Exception as e:
+        return Response({"error": str(e)})
+
+    if user_id in feed:
+        # when user already like post
+        return Response({"message": 'You have already liked this post'})
+
+    add_liked = Newsfeed.liked_by.add(user)
+    add_liked.save()
+    print("item is set")
+
+    print()
+
+    # serializer = NewsfeedSerializer(feed, data=request.data)
+    # if serializer.is_valid():
+    #     serializer.save()
+
+    response = Response({"message": "successfully liked"})
+
+    return response
 
