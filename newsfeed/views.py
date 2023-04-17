@@ -5,9 +5,12 @@ from rest_framework.decorators import api_view
 from newsfeed.models import Newsfeed
 from newsfeed.serializers import NewsfeedSerializer
 from .models import User
+from .models import LikedFeed
 from comment.models import Comment
 from .serializers import NewsfeedSerializer
+from .serializers import LikedBySerializer
 from comment.serializers import CommentSerializer
+from user.serializers import UserSerializer
 from django.utils.timezone import now
 
 class NewsfeedList(APIView):
@@ -92,31 +95,47 @@ class NewsfeedDelete(APIView):
 @api_view(['PUT'])
 def like(request, id, format=None):
     request_data = request.data
-    user_id = request_data["user_id"]
+    post_id = request_data["post_id"]
     try:
-        print("step one working")
-        feed = Newsfeed.objects.filter(id=id)
-        # for f in feed:
-        #     print(f.id, f.liked_by, f.likes_count)
-        user = User.objects.get(pk=user_id)
-
+        user = User.objects.get(pk=id)
+        feed = Newsfeed.objects.get(id=post_id)
     except Exception as e:
         return Response({"error": str(e)})
 
-    if user_id in feed:
+    user_data = UserSerializer(user)
+    liked = LikedFeed.objects.filter(post=post_id)
+    if id in liked:
         # when user already like post
         return Response({"message": 'You have already liked this post'})
+    else:
+        print("breaker1")
+        liked = LikedFeed.objects.get(id=post_id)
+        print(liked)
 
-    add_liked = Newsfeed.liked_by.add(user)
-    add_liked.save()
-    print("item is set")
+        print("breaker2")
 
-    print()
+        feedlike = {}
+        feedlike["post"] = post_id
+        feedlike["liked_by"] = id
 
-    # serializer = NewsfeedSerializer(feed, data=request.data)
-    # if serializer.is_valid():
-    #     serializer.save()
+        # print(feedlike)
+        # likedserializer = LikedBySerializer(data=feedlike)
+        # if likedserializer.is_valid(raise_exception=True):
+        #     likedserializer.save()
 
+        feed = Newsfeed.objects.get(id=post_id)
+        feedData =NewsfeedSerializer(feed).data
+        print("feed data")
+        print(feedData)
+        request_data["likes_count"] = feedData.get('likes_count') + 1
+        request_data["posted_by"] = feedData.get('posted_by').id
+        request_data["feed"] = feedData.get('feed')
+        request_data["imageLink"] = feedData.get('imageLink')
+
+        feedSerializer =NewsfeedSerializer(data=request_data)
+        if feedSerializer.is_valid(raise_exception=True):
+            feedSerializer.save()
+           
     response = Response({"message": "successfully liked"})
 
     return response
